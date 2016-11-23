@@ -1,0 +1,59 @@
+
+body {
+    font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
+    font-size: 14px;
+    min-width: 172px;
+    color: #999999;
+}
+
+#status {
+    float: left;
+    white-space: pre;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 300px;
+}
+
+.is-answered,
+.create-time,
+.view-count,
+.answer-count {
+    font-size: 12px;
+}
+
+.is-answered,
+.answer-count {
+    color: #F5A623;
+}
+
+.view-count {
+    color: #999999;
+}
+
+.count {
+    color: #DDDDDD
+}
+
+#result {
+    width: 300px;
+}
+
+a {
+    color: #009a61;
+    text-decoration: none;
+}
+
+button {
+    color: #fff;
+    background-color: #009a61;
+    border: 1px solid #008151;
+    border-radius: 2px;
+}
+
+#input {
+    width: 120px;
+    height: 20px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    outline: none;
+}
