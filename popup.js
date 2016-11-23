@@ -4,25 +4,6 @@ const URL_OPTION = {
   2: '开发者'
 };
 
-function ajax(url, callback, errorCallback) {
-  const x = new XMLHttpRequest();
-  x.open('GET', url, true);
-  x.responseType = 'json';
-  x.onload = function () {
-    var response = x.response;
-    if (!response || !response.issuesData || !response.issuesData.issues) {
-      errorCallback('暂无答案');
-      return;
-    }
-    var result = response.issuesData;
-    callback(result);
-  };
-  x.onerror = function () {
-    errorCallback('网络异常');
-  };
-  x.send();
-}
-
 function renderStatus(statusText, isFetching) {
   if (isFetching) {
     $('.spinner').show();

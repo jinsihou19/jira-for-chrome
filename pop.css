@@ -34,10 +34,6 @@ body {
     color: #DDDDDD
 }
 
-/**{
-    transition: all 1s ease-in-out;
-}*/
-
 #result {
     width: 300px;
 }
