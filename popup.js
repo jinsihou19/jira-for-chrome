@@ -1,5 +1,8 @@
 moment.locale('zh-cn');
-var currentKeyword = '';
+const URL_OPTION = {
+  1: 'assignee',
+  2: '开发者'
+};
 
 function ajax(url, callback, errorCallback) {
   const x = new XMLHttpRequest();
@@ -20,27 +23,27 @@ function ajax(url, callback, errorCallback) {
   x.send();
 }
 
-function renderStatus(statusText) {
+function renderStatus(statusText, isFetching) {
+  if (isFetching) {
+    $('.spinner').show();
+  }
   $('#status').text(statusText);
 }
 
-function startSearch() {
+function stopTransition() {
+  $('.spinner').hide();
+}
+
+function startQuery() {
+  const condition = $('#condition').val();
+  const keyword = $('#select').val();
   const searchUrl = 'http://www.finedevelop.com:2016/rest/greenhopper/1.0/xboard/work/allData.json?rapidViewId=9';
-  const result = document.getElementById('select');
-  keyword = result.value;
-  currentKeyword = keyword;
-  renderStatus('搜索中......');
-  ajax(searchUrl, function (result) {
-    render(result, keyword);
-    const links = document.getElementsByClassName('href');
-    for (let i = 0; i < links.length; i++) {
-      links[i].addEventListener('click', (e) => {
-        const link = e.target.href;
-        chrome.tabs.create({ url: link });
-      })
-    }
-  }, function (errorMessage) {
-    renderStatus(errorMessage);
+  renderStatus('正在拼命加载数据...', true);
+  $.get('http://www.finedevelop.com:2016/rest/api/2/search', {
+    jql: `${URL_OPTION[condition]} in (currentUser()) ORDER BY created DESC`
+  }, (res) => {
+    stopTransition();
+    render(res, keyword);
   });
 }
 
@@ -54,65 +57,47 @@ function render(result, keyword) {
     } else if (keyword == 2) {
       word = '已解决'
     }
-    return item.assignee === 'vito' && item.statusName.indexOf(word) !== -1;
+    return item.fields.status.name.indexOf(word) !== -1;
   });
   renderStatus('共' + filterResult.length + '项');
-  filterResult.sort((a, b) => {
-    if (moment(a.timeInColumn.enteredStatus).isAfter(moment(b.timeInColumn.enteredStatus))) {
-      return -1;
-    } else {
-      return 1;
-    }
-  });
-  const domArr = filterResult.map(item => {
-    const article = document.createElement('article')
-    const a = document.createElement('a');
-    a.className = 'href';
-    a.setAttribute('href', `http://www.finedevelop.com:2016/browse/${item.key}`);
-    a.appendChild(document.createTextNode(`${item.key} ${item.summary}`));
-    article.appendChild(a);
-
-    const count = document.createElement('div');
-    count.className = 'count';
-    const answerCount = document.createElement('span');
-    answerCount.className = 'answer-count';
-    answerCount.appendChild(document.createTextNode(item.statusName));
-    count.appendChild(answerCount);
-    article.appendChild(count);
-
-    const createTime = document.createElement('div');
-    createTime.className = 'create-time';
-    createTime.appendChild(document.createTextNode(moment(item.timeInColumn.enteredStatus).fromNow()));
-    article.appendChild(createTime);
-
-    const table = document.createElement('div');
-    const tableString = item.extraFields[2].html.replace(/\/images\/border\//g, 'http://www.finedevelop.com:2016/images/border/')
-    table.className = 'create-time';
-    table.innerHTML = tableString;
-    article.appendChild(table);
-
-    return article;
+  const itemArray = filterResult.map(item => {
+    const $article = $('<article/>');
+    $(`<a href="http://www.finedevelop.com:2016/browse/${item.key}" class="title_link">${item.key} ${item.fields.summary}<a/>`).appendTo($article);
+    $(`<div class="count"/>`)
+      .append($('<span class="answer-count"/>').text(item.fields.status.name))
+      .append(' | ')
+      .append($('<span class="create-time"/>').text(`${moment(item.fields.created).fromNow()}创建`))
+      .append(' | ')
+      .append($('<span class="create-time"/>').text(`${moment(item.fields.updated).fromNow()}更新`))
+      .appendTo($article);
+    const oriTime = `计划${item.fields.aggregatetimeoriginalestimate >= 28800 ? `${item.fields.aggregatetimeoriginalestimate / 28800}日` : `${item.fields.aggregatetimeoriginalestimate / 3600}小时`}`;
+    const leftTime = `剩余${item.fields.timeestimate >= 28800 ? `${item.fields.timeestimate / 28800}日` : `${item.fields.timeestimate / 3600}小时`}`;
+    $('<div class="timetracking">').text(`${oriTime} ${leftTime}`).appendTo($article);
+    return $article;
   })
-  domArr.forEach(item => {
-    $resultDOM.append(item).append(document.createElement('br'))
-  })
+  itemArray.forEach(item => $resultDOM.append(item).append($('<br/>')));
+  $('.tt_graph').width('100%');
+  $('.hideOnPrint').height('15px');
   $resultDOM.show();
-  const tableGhp = document.getElementsByClassName('tt_graph');
-  for (let i = 0; i < tableGhp.length; i++) {
-    tableGhp[i].style.width = '100%';
-  }
-  const src = document.getElementsByClassName('hideOnPrint');
-  for (let i = 0; i < src.length; i++) {
-    src[i].style.height = '15px';
-  }
+  $('.title_link').bind('click', (e) => {
+    const link = e.target.href;
+    chrome.tabs.create({ url: link });
+  });
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-  startSearch();
-  document.getElementById('select').addEventListener('change', startSearch);
-  document.onkeydown = (e) => {
+function init() {
+  startQuery();
+  initListener();
+}
+
+function initListener() {
+  $('#select').bind('change', startQuery);
+  $('#condition').bind('change', startQuery);
+  $(document).bind('keydown', (e) => {
     if (13 === e.keyCode) {
-      startSearch();
+      startQuery();
     }
-  }
-});
+  });
+}
+
+$(() => init());
