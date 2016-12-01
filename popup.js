@@ -25,6 +25,29 @@ function startQuery() {
   }, (res) => {
     stopTransition();
     render(res, keyword);
+  }).fail((res) => {
+    if (res.status === 400) {
+      $.ajax({
+        url: "http://www.finedevelop.com:2016/rest/auth/1/session",
+        method: "POST",
+        data: JSON.stringify({ "username": "xxx", "password": "xxx" }),
+        headers: {
+          "Content-Type": "application/json;"
+        },
+        success: (res, status) => {
+          $.get('http://www.finedevelop.com:2016/rest/api/2/search', {
+            jql: `${URL_OPTION[condition]} in (currentUser()) ORDER BY created DESC`
+          }, (res) => {
+            stopTransition();
+            render(res, keyword);
+          })
+        },
+        error: (res, status, errorThrown) => {
+          stopTransition();
+          renderStatus('哎呦，登录出现一个问题');
+        }
+      });
+    }
   });
 }
 
