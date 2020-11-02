@@ -12,8 +12,10 @@
     "48": "icon.png",
     "128": "icon.png"
   },
+  "options_page": "options.html",
   "permissions": [
     "activeTab",
-    "http://www.finedevelop.com:2016/" //匹配问题详见https://developer.chrome.com/extensions/match_patterns
+    "storage",
+    "https://*.fineres.com/" //匹配问题详见https://developer.chrome.com/extensions/match_patterns
   ]
 }

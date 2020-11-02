@@ -1,9 +1,18 @@
 
 body {
     font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
-    font-size: 14px;
-    min-width: 230px;
+    font-size: 12px;
+    min-width: 300px;
     color: #999999;
+    margin: 10px;
+    outline: none;
+}
+a {
+    outline: none;
+}
+
+a:focus {
+    outline: none;
 }
 
 #status {
@@ -50,12 +59,44 @@ button {
     border-radius: 2px;
 }
 
+table{
+    font-size: 12px;
+
+}
+
 #input {
     width: 120px;
     height: 20px;
     border: 1px solid #ccc;
     border-radius: 2px;
     outline: none;
+}
+
+#quick-open {
+    width: 90px;
+}
+
+.git-area{
+    max-width: 600px;
+}
+.git-area .repository{
+    max-width: 100px;
+    min-width: 80px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.git-area .title{
+    max-width: 150px;
+    min-width: 125px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+#tms-tabs{
+    margin: 0 0 10px 0;
 }
 
 .spinner {

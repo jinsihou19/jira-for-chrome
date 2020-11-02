@@ -3,29 +3,91 @@
 <head>
 	<title>Stackoverflow Extension's Popup</title>
 	<meta http-equiv="content-type" content="text/html;charset=utf-8">
+	<link rel="stylesheet" href="lib/bootstrap.min.css">
 	<link rel="stylesheet" href="pop.css">
-	<script src="jquery.min.js"></script>
-	<script src="moment.min.js"></script>
+	<script src="lib/jquery.min.js"></script>
+	<script src="lib/moment.min.js"></script>
+	<script src="lib/bootstrap.min.js"></script>
 	<script src="popup.js"></script>
 </head>
 
 <body>
-	<select id="condition">
-  		<option value =1 selected>当前任务</option>
-  		<option value =2>作为开发者</option>
-	</select>
-	<select id="select">
-  		<option value =1 selected>研发组员问题解决中</option>
-  		<option value =2>已解决</option>
-  		<option value=0 >所有</option>
-	</select>
-	<div id="status"></div>
+	<ol class="breadcrumb">
+		<li>
+			<a href="#" class="review-btn">Review </a>
+		</li>
+		<li>
+			<a href="http://www.finedevelop.com/pages/viewpage.action?pageId=4830470" class="kms-btn">KMS </a>
+		</li>
+		<li>
+			<a href="#" class="tms-btn">TMS </a>
+		</li>
+		<li>
+			<input id="quick-open" value="REPORT-" />
+		</li>
+	</ol>
+	<div class="git-area" hidden>
+		<ul class="nav nav-tabs" role="tablist">
+			<li role="presentation" class="active">
+				<a href="#home" aria-controls="home" role="tab" data-toggle="tab">审计</a>
+			</li>
+			<li role="presentation">
+				<a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">创建</a>
+			</li>
+		</ul>
+		<div class="tab-content">
+			<div role="tabpanel" class="tab-pane active" id="home">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Repository</th>
+							<th>Title</th>
+							<th>Author</th>
+							<th>Reviewers</th>
+						</tr>
+					</thead>
+					<tbody class="review-table-content"></tbody>
+				</table>
+			</div>
+			<div role="tabpanel" class="tab-pane" id="profile">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Repository</th>
+							<th>Title</th>
+							<th>Author</th>
+							<th>Reviewers</th>
+						</tr>
+					</thead>
+					<tbody class="author-table-content"></tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 	<div class="spinner" hidden>
 		<div class="bounce1"></div>
 		<div class="bounce2"></div>
 		<div class="bounce3"></div>
 	</div>
-	<div id="result" hidden></div>
+	<div class="tms-area">
+		<ul class="nav nav-tabs" role="tablist" id="tms-tabs">
+			<li role="presentation" class="active">
+				<a href="#tms-tab-unsolve" aria-controls="tms-tab-unsolve" role="tab" data-toggle="tab">解决中</a>
+			</li>
+			<li role="presentation">
+				<a href="#tms-tab-distribution" aria-controls="tms-tab-distribution" role="tab" data-toggle="tab">分配</a>
+			</li>
+			<li role="presentation">
+				<a href="#tms-tab-solve" aria-controls="tms-tab-solve" role="tab" data-toggle="tab">已解决</a>
+			</li>
+			<button type="button" class="navbar-btn" id="refresh">刷新</button>
+		</ul>
+		<div class="tab-content">
+			<div role="tabpanel" class="tab-pane fade in active" id="tms-tab-unsolve"></div>
+			<div role="tabpanel" class="tab-pane fade active" id="tms-tab-distribution" style="display: none"></div>
+			<div role="tabpanel" class="tab-pane fade active" id="tms-tab-solve" style="display: none"></div>
+		</div>
+	</div>
 </body>
 
 </html>
