@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "jira我的任务",
+  "name": "jira dashboard",
   "description": "jira我的任务",
   "version": "1.0",
   "browser_action": {
@@ -12,10 +12,18 @@
     "48": "icon.png",
     "128": "icon.png"
   },
-  "options_page": "options.html",
+  "options_ui": {
+    "page": "options.html",
+    "chrome_style": true
+  },
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
   "permissions": [
     "activeTab",
     "storage",
-    "https://*.fineres.com/" //匹配问题详见https://developer.chrome.com/extensions/match_patterns
+    "https://*.fineres.com/", //匹配问题详见https://developer.chrome.com/extensions/match_patterns
+    "https://qyapi.weixin.qq.com/"
   ]
 }

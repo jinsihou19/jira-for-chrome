@@ -1,0 +1,36 @@
+<html>
+
+<head>
+	<title>jira Extension's Options</title>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8">
+	<link rel="stylesheet" href="pop.css">
+	<script src="lib/jquery.min.js"></script>
+	<script src="lib/moment.min.js"></script>
+	<script src="options.js"></script>
+</head>
+
+<body>
+	<div>
+		<input type="text" id="message-title" />还有 n 个，截止日期到<input type="text" id="message-deadline" />，请相关同学注意。
+	</div>
+	<div>
+		<label for="message-jql">过滤器：</label>
+		<input type="text" id="message-jql" />
+	</div>
+	<div>
+		<label for="message-link">BUG页面链接：</label>
+		<input type="text" id="message-link" />
+	</div>
+	<div>
+		<button id="save-options">保存</button>
+	</div>
+	<div id="status"></div>
+	<div class="spinner" hidden>
+		<div class="bounce1"></div>
+		<div class="bounce2"></div>
+		<div class="bounce3"></div>
+	</div>
+	<div id="result" hidden></div>
+</body>
+
+</html>

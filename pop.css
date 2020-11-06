@@ -59,9 +59,18 @@ button {
     border-radius: 2px;
 }
 
-table{
+table {
     font-size: 12px;
+    width: 100%;
+    line-height: 15px;
+    /* border: 1px solid  #67CF22;
+    border-collapse: collapse; */
+}
 
+td, th {
+    /* border: 1px solid  #67CF22;
+    border-collapse: collapse; */
+    padding: 5px;
 }
 
 #input {

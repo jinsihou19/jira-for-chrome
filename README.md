@@ -9,5 +9,5 @@ bitbucket服务器API记录
 3. /rest/inbox/latest/pull-requests?role=reviewer&start=0&limit=10&avatarSize=64&withAttributes=true&state=OPEN&order=oldest 请求review的情况 View your unapproved pull requestsbootstrap.min.js
 
 
-jira server rest api :https://developer.atlassian.com/server/jira/platform/rest-apis/
+jira server rest api :https://docs.atlassian.com/software/jira/docs/api/REST/7.11.2/#api/2/search
 bitbucket rest api:https://developer.atlassian.com/server/bitbucket/reference/plugin-module-types/plugin-modules/
